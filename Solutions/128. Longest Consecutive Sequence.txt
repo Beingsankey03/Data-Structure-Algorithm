@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        // HashMap (or HashSet) to track visited elements
+        Map<Integer, Boolean> visited = new HashMap<>();
+        for (int num : nums) {
+            visited.put(num, false);  // false = not explored yet
+        }
+
+        int longestLength = 0;
+
+        // Traverse each number
+        for (int num : nums) {
+            if (visited.get(num)) continue; // already explored
+
+            visited.put(num, true); // mark current as explored
+            int currentLength = 1;
+
+            // Explore forward (num+1, num+2, …)
+            int next = num + 1;
+            while (visited.containsKey(next) && !visited.get(next)) {
+                visited.put(next, true);
+                currentLength++;
+                next++;
+            }
+
+            // Explore backward (num-1, num-2, …)
+            int prev = num - 1;
+            while (visited.containsKey(prev) && !visited.get(prev)) {
+                visited.put(prev, true);
+                currentLength++;
+                prev--;
+            }
+
+            // Update maximum length
+            longestLength = Math.max(longestLength, currentLength);
+        }
+
+        return longestLength;
+    }
+}

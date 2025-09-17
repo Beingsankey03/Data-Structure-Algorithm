@@ -1,0 +1,23 @@
+import java.util.HashMap;
+
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        // HashMap to store element as key and its index as value
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                // Calculate difference between current index and stored index
+                int prevIndex = map.get(nums[i]);
+                if (i - prevIndex <= k) {
+                    return true; // Found duplicate within range k
+                }
+            }
+            // Update or insert the current index for nums[i]
+            map.put(nums[i], i);
+        }
+        
+        // No such pair found
+        return false;
+    }
+}
