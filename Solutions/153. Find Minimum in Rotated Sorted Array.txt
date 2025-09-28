@@ -1,0 +1,26 @@
+class Solution {
+    public int findMin(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        
+        // If array is not rotated
+        if (nums[left] <= nums[right]) {
+            return nums[left];
+        }
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            // If mid element > rightmost, min must be on right side
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                // Min is in left side (including mid)
+                right = mid;
+            }
+        }
+        
+        // Left will point to minimum
+        return nums[left];
+    }
+}
