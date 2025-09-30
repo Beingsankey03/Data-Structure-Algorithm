@@ -1,0 +1,37 @@
+import java.util.*;
+
+class Solution {
+    public String simplifyPath(String path) {
+        // Use stack to manage directories
+        Deque<String> stack = new ArrayDeque<>();
+        
+        // Split by "/" to get components
+        String[] parts = path.split("/");
+        
+        for (String part : parts) {
+            if (part.equals("") || part.equals(".")) {
+                // Skip empty or "."
+                continue;
+            } else if (part.equals("..")) {
+                // Pop last directory if possible
+                if (!stack.isEmpty()) {
+                    stack.pollLast();
+                }
+            } else {
+                // Valid directory/file name
+                stack.addLast(part);
+            }
+        }
+        
+        // If stack empty, return root
+        if (stack.isEmpty()) return "/";
+        
+        // Rebuild path
+        StringBuilder result = new StringBuilder();
+        for (String dir : stack) {
+            result.append("/").append(dir);
+        }
+        
+        return result.toString();
+    }
+}
