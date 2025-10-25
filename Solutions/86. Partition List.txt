@@ -1,0 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        // Create two dummy nodes for partitions
+        ListNode smallerHead = new ListNode(0);
+        ListNode greaterHead = new ListNode(0);
+        
+        // Pointers to build the lists
+        ListNode smaller = smallerHead;
+        ListNode greater = greaterHead;
+        
+        // Traverse the linked list
+        while (head != null) {
+            if (head.val < x) {
+                // Node belongs to smaller list
+                smaller.next = head;
+                smaller = smaller.next;
+            } else {
+                // Node belongs to greater or equal list
+                greater.next = head;
+                greater = greater.next;
+            }
+            head = head.next;
+        }
+        
+        // End the greater list to avoid cycles
+        greater.next = null;
+        
+        // Connect smaller list to greater list
+        smaller.next = greaterHead.next;
+        
+        // Return the merged list (skipping dummy node)
+        return smallerHead.next;
+    }
+}
