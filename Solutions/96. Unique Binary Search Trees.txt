@@ -1,0 +1,22 @@
+class Solution {
+    public int numTrees(int n) {
+        // Step 1: DP array where dp[i] = number of unique BSTs using i nodes
+        int[] dp = new int[n + 1];
+
+        // Step 2: Base cases
+        dp[0] = 1;  // Empty tree
+        dp[1] = 1;  // Single node tree
+
+        // Step 3: Build DP table
+        for (int nodes = 2; nodes <= n; nodes++) {
+            for (int root = 1; root <= nodes; root++) {
+                int left = dp[root - 1];     // number of BSTs in left subtree
+                int right = dp[nodes - root]; // number of BSTs in right subtree
+                dp[nodes] += left * right;
+            }
+        }
+
+        // Step 4: dp[n] contains total unique BSTs possible with n nodes
+        return dp[n];
+    }
+}
